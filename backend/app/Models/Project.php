@@ -19,4 +19,11 @@ class project extends Model
     {
         return $this->hasMany(Sprint::class);
     }
+
+    // Un projet a une analyse AI (validé par le chef => stocké dans ai_analyses)
+    public function analysis()
+    {
+        return $this->hasOne(AiAnalysis::class); 
+        
+    }
 }

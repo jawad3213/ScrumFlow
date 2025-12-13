@@ -31,5 +31,13 @@ class DatabaseSeeder extends Seeder
         'password' => Hash::make('password123A'), // Mot de passe crypté
         'role' => 'chef',
     ]);
+
+    User::create([
+        'name' => 'AHMED',
+        'email' => 'Ahmed@projet.com',
+        'password' => Hash::make('Ahmed123'), // Mot de passe crypté
+        'role' => 'employee',
+    ]);
+
     }
 }

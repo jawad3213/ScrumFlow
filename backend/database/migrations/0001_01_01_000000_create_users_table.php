@@ -6,34 +6,32 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
+        $table->id();
+        $table->string('name');
+        $table->string('email')->unique();
+        $table->string('password');
+        $table->enum('role', ['chef', 'employee'])->default('employee'); 
+        $table->string('job_title')->nullable(); 
+        $table->decimal('daily_rate', 8, 2)->nullable(); // Pour le calcul de coût par AI
+        $table->rememberToken();
+        $table->timestamps();
+    });
 
-            $table->id('id_utilisateur');
-            $table->string('nom');
-            $table->string('prenom');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->date('date_naissance')->nullable();
-            $table->string('numero_telephone')->nullable();
-            $table->enum('role', ['chef', 'employe'])->default('employe');
-            $table->string('status')->default('actif'); 
-            $table->string('specialite')->nullable();
-
-            // Relation "Gérer" (optionnel mais utile selon votre schéma)
-            // Permet de dire "Cet employé est géré par ce chef"
-            $table->foreignId('chef_id')
-                  ->nullable()
-                  ->constrained('users', 'id_utilisateur')
-                  ->onDelete('set null');
-
-            $table->timestamps();
-        });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
         Schema::dropIfExists('users');
+        Schema::dropIfExists('password_reset_tokens');
+        Schema::dropIfExists('sessions');
     }
 };

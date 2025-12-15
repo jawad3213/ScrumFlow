@@ -49,7 +49,49 @@ class EmployeeController extends Controller
         return response()->json([
             'message' => 'Employé créé avec succès.',
             'user' => $user,
-            'generated_password' => $generatedPassword // Le mot de passe est retourné ici pour que le React App puisse l'afficher
         ], 201);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $request->validate([
+            'first_name' => 'sometimes|required|string|max:255',
+            'last_name' => 'sometimes|required|string|max:255',
+            'job_title' => 'sometimes|required|string|max:255',
+            'status' => 'sometimes|required|in:active,banned',
+        ]);
+
+        $user->update($request->only(['first_name', 'last_name', 'job_title', 'status']));
+
+        return response()->json([
+            'message' => 'Employé mis à jour avec succès.',
+            'user' => $user
+        ]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+        
+        // Laravel gère la cascade si les migrations sont bien faites (ON DELETE CASCADE)
+        // Sinon, il faudrait supprimer manuellement les relations ici.
+        // Vu les migrations :
+        // - tasks.assigned_to -> set null
+        // - ai_analyses -> cascade
+        // - projects/sprints -> cascade (si l'employé est owner, ce qui est rare pour un simple employé)
+        
+        $user->delete();
+
+        return response()->json([
+            'message' => 'Employé supprimé avec succès.'
+        ]);
     }
 }

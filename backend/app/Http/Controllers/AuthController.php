@@ -31,6 +31,14 @@ class AuthController extends Controller
         // 3. Récupération de l'utilisateur directement depuis l'auth
         $user = Auth::user();
 
+        // CHECK: Si l'utilisateur est banni
+        if ($user->status === 'banned') {
+            // on pourrait faire Auth::logout(); pour être sûr
+            return response()->json([
+                'message' => 'Votre compte est banni. Veuillez contacter l\'administrateur.'
+            ], 403);
+        }
+
         // 4. Création du Token (Jeton d'accès)
         $token = $user->createToken('auth_token')->plainTextToken;
 

@@ -16,8 +16,10 @@ Route::middleware('auth:sanctum')->group(function () {
     
     Route::post('/logout', [AuthController::class, 'logout']);
     
-    // Create Employee Route
+    // Employee Routes
     Route::post('/employees', [EmployeeController::class, 'store']);
+    Route::put('/employees/{id}', [EmployeeController::class, 'update']);
+    Route::delete('/employees/{id}', [EmployeeController::class, 'destroy']);
 
     // Juste pour tester que le token fonctionne
     Route::get('/me', function (Request $request) {

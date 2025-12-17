@@ -47,7 +47,8 @@ class AuthController extends Controller
             'message' => 'Connexion réussie',
             'access_token' => $token,
             'token_type' => 'Bearer',
-            'user' => $user // On renvoie aussi les infos du user (rôle, nom, etc.)
+            'user' => $user, // On renvoie aussi les infos du user (rôle, nom, etc.)
+            'role' => $user->role,
         ]);
     }
     
@@ -83,7 +84,7 @@ class AuthController extends Controller
 
         // Envoyer l'email
         try {
-            Mail::to($request->email)->send(new ResetPasswordMail($token));
+            Mail::to($request->email)->send(new ResetPasswordMail($token, $request->email));
         } catch (\Exception $e) {
              return response()->json(['message' => 'Erreur lors de l\'envoi de l\'email.'], 500);
         }

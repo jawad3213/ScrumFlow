@@ -1,0 +1,24 @@
+{
+  "mcpServers": {
+    "shadcn": {
+      "command": "npx",
+      "args": [
+        "shadcn@latest",
+        "mcp"
+      ],
+      "env": {
+        "GITHUB_TOKEN": "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"
+      }
+    },
+    "google-search": {
+      "command": "npx",
+      "args": [
+        "@modelcontextprotocol/server-google-search"
+      ],
+      "env": {
+        "GOOGLE_API_KEY": "AIzaSyBx7SO3EhiIM_3iOeNRE_ExJByTKB5MODo",
+        "GOOGLE_SEARCH_ENGINE_ID": "420fbc75476484db0"
+      }
+    }
+  }
+}
